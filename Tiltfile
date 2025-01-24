@@ -2,7 +2,7 @@
 docker_compose(["./docker-compose.yml"])
 
 # Accounts GraphQL
-docker_build('career-cue/accounts-graphql', '.',
+docker_build('challah-social/accounts-graphql', '.',
     dockerfile="./apps/services/accounts-graphql/Dockerfile",
     live_update = [
         sync('./apps/services/accounts-graphql', '/app'),
@@ -12,7 +12,7 @@ docker_build('career-cue/accounts-graphql', '.',
 )
 
 # Accounts API
-docker_build('career-cue/accounts-api', '.',
+docker_build('challah-social/accounts-api', '.',
     dockerfile="./apps/services/accounts-api/Dockerfile",
     live_update = [
         sync('./apps/services/accounts-api', '/app'),
@@ -22,7 +22,7 @@ docker_build('career-cue/accounts-api', '.',
 )
 
 # Accounts Worker
-docker_build('career-cue/accounts-worker', '.',
+docker_build('challah-social/accounts-worker', '.',
     dockerfile="./apps/services/accounts-worker/Dockerfile",
     live_update = [
         sync('./apps/services/accounts-worker', '/app'),
@@ -32,7 +32,7 @@ docker_build('career-cue/accounts-worker', '.',
 )
 
 # Inbound Webhooks API
-docker_build('career-cue/inbound-webhooks-api', '.',
+docker_build('challah-social/inbound-webhooks-api', '.',
     dockerfile="./apps/services/inbound-webhooks-api/Dockerfile",
     live_update = [
         sync('./apps/services/inbound-webhooks-api', '/app'),

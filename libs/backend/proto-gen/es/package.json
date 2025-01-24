@@ -1,5 +1,5 @@
 {
-  "name": "@career-cue/proto-gen-es",
+  "name": "@challah-social/proto-gen-es",
   "version": "0.0.1",
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.3",

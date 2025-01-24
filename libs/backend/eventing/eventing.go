@@ -9,7 +9,7 @@ func Eventing(name string) string {
 
 // Event Names for Auth Producer and Consumer
 const (
-	CareerCueEventPrefix = "career-cue"
+	ChallahSocialEventPrefix = "challah-social"
 )
 
 type EventName string
@@ -21,12 +21,12 @@ func (n EventName) String() string {
 
 // GetRoutingKeyPrefix concats the app name and domain name
 func GetRoutingKeyPrefix(domainName string) string {
-	return fmt.Sprintf("%s.%s", CareerCueEventPrefix, domainName)
+	return fmt.Sprintf("%s.%s", ChallahSocialEventPrefix, domainName)
 }
 
 // GetEventName will construct the event name from the app name, domain and specific event name
 func GetEventName(domain, eventName string) string {
-	return fmt.Sprintf("%s.%s.%s", CareerCueEventPrefix, domain, eventName)
+	return fmt.Sprintf("%s.%s.%s", ChallahSocialEventPrefix, domain, eventName)
 }
 
 // EventBuilder is an interface for building events and event infrastructure

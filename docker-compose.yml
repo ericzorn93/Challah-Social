@@ -1,10 +1,10 @@
 version: '3.9'
-name: career-cue
+name: challah-social
 services:
   ############ INBOUND WEBHOOKS API ############
   inbound-webhooks-api:
-    image: career-cue/inbound-webhooks-api
-    container_name: career-cue-inbound-webhooks-api
+    image: challah-social/inbound-webhooks-api
+    container_name: challah-social-inbound-webhooks-api
     build:
       context: .
       dockerfile: ./apps/services/inbound-webhooks-api/Dockerfile
@@ -20,8 +20,8 @@ services:
 
   ############ ACCOUNTS API ############
   accounts-api:
-    image: career-cue/accounts-api
-    container_name: career-cue-accounts-api
+    image: challah-social/accounts-api
+    container_name: challah-social-accounts-api
     build:
       context: .
       dockerfile: ./apps/services/accounts-api/Dockerfile
@@ -38,8 +38,8 @@ services:
 
   ############ ACCOUNTS WORKER ############
   accounts-worker:
-    image: career-cue/accounts-worker
-    container_name: career-cue-accounts-worker
+    image: challah-social/accounts-worker
+    container_name: challah-social-accounts-worker
     build:
       context: .
       dockerfile: ./apps/services/accounts-worker/Dockerfile
@@ -55,8 +55,8 @@ services:
 
   ############ ACCOUNTS GRAPHQL ############
   accounts-graphql:
-    image: career-cue/accounts-graphql
-    container_name: career-cue-accounts-graphql
+    image: challah-social/accounts-graphql
+    container_name: challah-social-accounts-graphql
     build:
       context: .
       dockerfile: ./apps/services/accounts-graphql/Dockerfile

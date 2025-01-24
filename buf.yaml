@@ -2,7 +2,7 @@
 version: v2
 modules:
   - path: protos
-    name: buf.build/career-cue/career-cue-apis
+    name: buf.build/challah-social/challah-social-apis
 lint:
   use:
     - STANDARD
