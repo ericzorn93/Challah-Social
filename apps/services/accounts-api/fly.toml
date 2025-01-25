@@ -1,20 +1,26 @@
-app = 'accounts-api-prod'
+# fly.toml app configuration file generated for accounts-api-prod-challah-social on 2025-01-24T17:22:19-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[[services]]
-primary_region = 'iad'
+app = 'accounts-api-prod-challah-social'
+primary_region = 'ewr'
 
 [build]
-dockerfile = "Dockerfile"
-ignorefile = ".dockerignore"
+dockerfile = 'Dockerfile'
+ignorefile = '.dockerignore'
+
+[[services]]
+protocol = ''
+internal_port = 0
+ports = []
 
 [[vm]]
 memory = '1gb'
 cpu_kind = 'shared'
 cpus = 1
 
-[[machines]]
-restart_policy = "always"
-
-[metrics]
+[[metrics]]
 port = 3000
-path = "/metrics" # default for most prometheus exporters
+path = '/metrics'
+https = false

@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for accounts-graphql-prod on 2024-12-31T14:23:36-05:00
+# fly.toml app configuration file generated for accounts-graphql-prod-challah-social on 2025-01-25T13:24:13-05:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'accounts-graphql-prod'
+app = 'accounts-graphql-prod-challah-social'
 primary_region = 'iad'
 
 [build]
