@@ -2,6 +2,7 @@ package connectrpc
 
 import (
 	"context"
+	"log/slog"
 
 	"connectrpc.com/connect"
 
@@ -34,6 +35,8 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	ctx context.Context,
 	req *connect.Request[inboundwebhooksapiv1.ClerkUserAuthEventRequest],
 ) (*connect.Response[commonv1.Empty], error) {
+
+	h.Logger.Info("User printed", slog.Any("user", req.Msg.GetUser()))
 	// Parse CommonID
 	// commonID := userValueObjects.NewCommonIDFromString(req.Msg.CommonId)
 	// emailAddress := userValueObjects.NewEmailAddress(req.Msg.EmailAddress)
