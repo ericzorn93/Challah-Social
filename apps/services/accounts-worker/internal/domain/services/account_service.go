@@ -57,7 +57,6 @@ func (s AccountService) CreateAccount(ctx context.Context, user userEntities.Use
 	req := connect.NewRequest(&accountsapiv1.CreateAccountRequest{
 		Username:     user.Username,
 		EmailAddress: user.EmailAddress.String(),
-		CommonId:     user.CommonID.String(),
 	})
 	req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())
 	account, err := s.RegistrationServiceClient.CreateAccount(ctx, req)
