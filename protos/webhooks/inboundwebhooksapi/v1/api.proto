@@ -19,17 +19,10 @@ service InboundWebhooksAuthService {
     }
 }
 
-// UserEventType defines the type of user event
-// coming from the Clerk Webhooks
-enum UserEventType {
-    UNKNOWN= 0;
-    USER_CREATED = 1;
-}
-
 // ClerkUserAuthEventRequest defines the incoming data for the user event from
 // the Clerk Webhooks
 message ClerkUserAuthEventRequest {
-    UserEventType type = 1;
+    ClerkUserEventType type = 1;
     string object = 2;
     ClerkUser user = 3;
 }

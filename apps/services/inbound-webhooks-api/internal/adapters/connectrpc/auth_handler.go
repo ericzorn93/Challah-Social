@@ -10,11 +10,12 @@ import (
 	userEntities "libs/backend/domain/user/entities"
 	commonv1 "libs/backend/proto-gen/go/common/v1"
 	inboundwebhooksapiv1 "libs/backend/proto-gen/go/webhooks/inboundwebhooksapi/v1"
+	inboundwebhooksapiv1connect "libs/backend/proto-gen/go/webhooks/inboundwebhooksapi/v1/inboundwebhooksapiv1connect"
 )
 
 // AuthHandler handles all gRPC endpoints for inbound webhooks
 type AuthHandler struct {
-	inboundwebhooksapiv1.UnimplementedInboundWebhooksAuthAPIServer
+	inboundwebhooksapiv1connect.UnimplementedInboundWebhooksAuthServiceHandler
 	Logger      boot.Logger
 	Application app.Application
 }
