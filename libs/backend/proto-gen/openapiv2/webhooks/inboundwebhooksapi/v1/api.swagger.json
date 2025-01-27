@@ -16,10 +16,10 @@
     "application/json"
   ],
   "paths": {
-    "/v1/webhooks/inbound/auth/user/registered": {
+    "/v1/webhooks/inbound/auth/user": {
       "post": {
-        "summary": "Auth0",
-        "operationId": "InboundWebhooksAuthService_UserRegistered",
+        "summary": "ClerkAuthUserEvent is the endpoint that receives the user event from the Clerk Webhooks",
+        "operationId": "InboundWebhooksAuthService_ClerkAuthUserEvent",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -40,7 +40,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UserRegisteredRequest"
+              "$ref": "#/definitions/v1ClerkUserAuthEventRequest"
             }
           }
         ],
@@ -51,6 +51,87 @@
     }
   },
   "definitions": {
+    "ClerkUserEmailAddress": {
+      "type": "object",
+      "properties": {
+        "emailAddress": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "linkedTo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ClerkUserLinkedTo"
+          },
+          "title": "Changed from google.protobuf.Any to LinkedTo"
+        },
+        "object": {
+          "type": "string"
+        },
+        "verification": {
+          "$ref": "#/definitions/ClerkUserVerification"
+        }
+      },
+      "title": "EmailAddress represents an email address of the user"
+    },
+    "ClerkUserLinkedTo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "title": "LinkedTo represents an entity linked to another object"
+    },
+    "ClerkUserPhoneNumber": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "reservedForSecondFactor": {
+          "type": "boolean"
+        },
+        "defaultSecondFactor": {
+          "type": "boolean"
+        },
+        "linkedTo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ClerkUserLinkedTo"
+          }
+        },
+        "backupCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "PhoneNumber represents a phone number associated with the user"
+    },
+    "ClerkUserVerification": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string"
+        }
+      },
+      "title": "Verification represents the verification status of user attributes"
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -81,24 +162,146 @@
         }
       }
     },
+    "v1ClerkUser": {
+      "type": "object",
+      "properties": {
+        "birthday": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ClerkUserEmailAddress"
+          }
+        },
+        "externalAccounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "lastSignInAt": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "object": {
+          "type": "string"
+        },
+        "passwordEnabled": {
+          "type": "boolean"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ClerkUserPhoneNumber"
+          },
+          "title": "Changed from google.protobuf.Any to PhoneNumber"
+        },
+        "primaryEmailAddressId": {
+          "type": "string"
+        },
+        "primaryPhoneNumberId": {
+          "type": "string"
+        },
+        "primaryWeb3WalletId": {
+          "type": "string"
+        },
+        "privateMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/protobufAny"
+          },
+          "title": "Changed keys from Any to string for clarity"
+        },
+        "profileImageUrl": {
+          "type": "string"
+        },
+        "publicMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/protobufAny"
+          },
+          "title": "Changed keys from Any to string for clarity"
+        },
+        "twoFactorEnabled": {
+          "type": "boolean"
+        },
+        "unsafeMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/protobufAny"
+          },
+          "title": "Changed keys from Any to string for clarity"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "web3Wallets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      },
+      "title": "ClerkUser represents the entire user object that is going\nto be passed in Clerk Authentication webhooks"
+    },
+    "v1ClerkUserAuthEventRequest": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/v1UserEventType"
+        },
+        "object": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/v1ClerkUser"
+        }
+      },
+      "title": "ClerkUserAuthEventRequest defines the incoming data for the user event from\nthe Clerk Webhooks"
+    },
     "v1Empty": {
       "type": "object",
       "title": "Empty represents a completely empty message"
     },
-    "v1UserRegisteredRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "emailAddress": {
-          "type": "string"
-        },
-        "commonId": {
-          "type": "string"
-        }
-      },
-      "title": "UserRegisteredRequest defines the incoming data for the user created event from\nAuth0 Actions after the user has registered for the first time"
+    "v1UserEventType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "USER_CREATED"
+      ],
+      "default": "UNKNOWN",
+      "title": "UserEventType defines the type of user event\ncoming from the Clerk Webhooks"
     }
   }
 }

@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package webhooks.inboundwebhooksapi.v1;
-
-// ClerkUser represents the entire user object that is going
-// to be passed in Clerk Authentication webhooks
-message ClerkUser {}

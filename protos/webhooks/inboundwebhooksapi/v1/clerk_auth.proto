@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package webhooks.inboundwebhooksapi.v1;
+
+import "google/protobuf/any.proto";
+
+// ClerkUser represents the entire user object that is going
+// to be passed in Clerk Authentication webhooks
+message ClerkUser {
+    // Verification represents the verification status of user attributes
+    message Verification {
+        string status = 1;
+        string strategy = 2;
+    }
+
+    // LinkedTo represents an entity linked to another object
+    message LinkedTo {
+        string id = 1;
+        string type = 2;
+    }
+
+    // EmailAddress represents an email address of the user
+    message EmailAddress {
+        string email_address = 1;
+        string id = 2;
+        repeated LinkedTo linked_to = 3;  // Changed from google.protobuf.Any to LinkedTo
+        string object = 4;
+        Verification verification = 5;
+    }
+
+    // PhoneNumber represents a phone number associated with the user
+    message PhoneNumber {
+        string id = 1;
+        string phone_number = 2;
+        bool reserved_for_second_factor = 3;
+        bool default_second_factor = 4;
+        repeated LinkedTo linked_to = 5;
+        repeated string backup_codes = 6;
+    }
+
+    string birthday = 1;
+    uint64 created_at = 2;
+    repeated EmailAddress email_addresses = 3;
+    repeated google.protobuf.Any external_accounts = 4;
+    string external_id = 5;
+    string first_name = 6;
+    string gender = 7;
+    string id = 8;
+    string image_url = 9;
+    string last_name = 10;
+    uint64 last_sign_in_at = 11;
+    string object = 12;
+    bool password_enabled = 13;
+    repeated PhoneNumber phone_numbers = 14;  // Changed from google.protobuf.Any to PhoneNumber
+    string primary_email_address_id = 15;
+    string primary_phone_number_id = 16;
+    string primary_web3_wallet_id = 17;
+    map<string, google.protobuf.Any> private_metadata = 18;  // Changed keys from Any to string for clarity
+    string profile_image_url = 19;
+    map<string, google.protobuf.Any> public_metadata = 20;  // Changed keys from Any to string for clarity
+    bool two_factor_enabled = 21;
+    map<string, google.protobuf.Any> unsafe_metadata = 22;  // Changed keys from Any to string for clarity
+    uint64 updated_at = 23;
+    string username = 24;
+    repeated google.protobuf.Any web3_wallets = 25;
+}
