@@ -2,6 +2,7 @@ package connectrpc
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 
 	"connectrpc.com/connect"
@@ -9,6 +10,7 @@ import (
 	"apps/services/inbound-webhooks-api/internal/app"
 	boot "libs/backend/boot"
 	userEntities "libs/backend/domain/user/entities"
+	userValueObjects "libs/backend/domain/user/valueobjects"
 	commonv1 "libs/backend/proto-gen/go/common/v1"
 	inboundwebhooksapiv1 "libs/backend/proto-gen/go/webhooks/inboundwebhooksapi/v1"
 	inboundwebhooksapiv1connect "libs/backend/proto-gen/go/webhooks/inboundwebhooksapi/v1/inboundwebhooksapiv1connect"
@@ -35,21 +37,32 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	ctx context.Context,
 	req *connect.Request[inboundwebhooksapiv1.ClerkUserAuthEventRequest],
 ) (*connect.Response[commonv1.Empty], error) {
+	eventType := req.Msg.GetType()
 
-	h.Logger.Info("User printed", slog.Any("user", req.Msg.GetUser()))
-	// Parse CommonID
-	// commonID := userValueObjects.NewCommonIDFromString(req.Msg.CommonId)
-	// emailAddress := userValueObjects.NewEmailAddress(req.Msg.EmailAddress)
+	switch eventType {
+	case inboundwebhooksapiv1.ClerkUserEventType_CLERK_USER_EVENT_TYPE_USER_CREATED:
+		data := req.Msg.GetData()
+		h.Logger.Info("User printed", slog.Any("user", data))
 
-	if err := h.Application.AuthService.RegisterUser(
-		userEntities.NewUser(
-			// userEntities.WithCommonID(commonID),
-			// userEntities.WithEmailAddress(emailAddress),
-			// userEntities.WithUserUsername(req.Msg.Username),
-			userEntities.WithMetadata(make(map[string]any, 0)),
-		),
-	); err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		// Parse Info
+		emailAddresses := data.GetEmailAddresses()
+		if len(emailAddresses) == 0 {
+			return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("no email addresses provided"))
+		}
+		emailAddress := userValueObjects.NewEmailAddress(emailAddresses[0].EmailAddress)
+		userName := data.GetUsername()
+
+		if err := h.Application.AuthService.RegisterUser(
+			userEntities.NewUser(
+				userEntities.WithEmailAddress(emailAddress),
+				userEntities.WithUserUsername(userName),
+				userEntities.WithMetadata(make(map[string]any, 0)),
+			),
+		); err != nil {
+			return nil, connect.NewError(connect.CodeInternal, err)
+		}
+		return connect.NewResponse(&commonv1.Empty{}), nil
+	default:
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("invalid event type"))
 	}
-	return connect.NewResponse(&commonv1.Empty{}), nil
 }

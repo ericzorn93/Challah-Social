@@ -4,12 +4,13 @@ package webhooks.inboundwebhooksapi.v1;
 
 import "google/protobuf/any.proto";
 
+import "options/enums.proto";
 
 // ClerkUserEventType defines the type of user event
 // coming from the Clerk Webhooks
 enum ClerkUserEventType {
-    UNKNOWN= 0;
-    USER_CREATED = 1;
+    CLERK_USER_EVENT_TYPE_UNKNOWN= 0 [(options.string_value) = ""];
+    CLERK_USER_EVENT_TYPE_USER_CREATED = 1 [(options.string_value) = "user.created"];
 }
 
 

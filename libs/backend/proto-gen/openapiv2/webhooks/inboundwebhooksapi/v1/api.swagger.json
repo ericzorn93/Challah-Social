@@ -284,7 +284,7 @@
         "object": {
           "type": "string"
         },
-        "user": {
+        "data": {
           "$ref": "#/definitions/v1ClerkUser"
         }
       },
@@ -293,10 +293,10 @@
     "v1ClerkUserEventType": {
       "type": "string",
       "enum": [
-        "UNKNOWN",
-        "USER_CREATED"
+        "CLERK_USER_EVENT_TYPE_UNKNOWN",
+        "CLERK_USER_EVENT_TYPE_USER_CREATED"
       ],
-      "default": "UNKNOWN",
+      "default": "CLERK_USER_EVENT_TYPE_UNKNOWN",
       "title": "ClerkUserEventType defines the type of user event\ncoming from the Clerk Webhooks"
     },
     "v1Empty": {
