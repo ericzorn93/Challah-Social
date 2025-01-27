@@ -25,3 +25,17 @@ message UserRegisteredRequest {
     string email_address = 2 [(buf.validate.field).string.email = true];
     string common_id = 3 [(buf.validate.field).string.min_len = 1];
 }
+
+// UserEventType defines the type of user event
+// coming from the Clerk Webhooks
+enum UserEventType {
+    UNKNOWN= 0;
+    USER_CREATED = 1;
+}
+
+// UserCreatedRequest defines the incoming data for the user created event from
+// the Clerk Webhooks
+message UserCreatedRequest {
+    UserEventType type = 1;
+    string object = 2;
+}
