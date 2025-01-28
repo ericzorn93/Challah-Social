@@ -39,6 +39,7 @@ func (r *AccountServiceHandler) CreateAccount(
 	ctx context.Context,
 	req *connect.Request[accountsapiv1.CreateAccountRequest],
 ) (*connect.Response[accountsapiv1.CreateAcountResponse], error) {
+	// Create New CommonID (in-memory) and EmailAddress
 	commonID := userValueObjects.NewCommonID()
 	emailAddress := userValueObjects.NewEmailAddress(req.Msg.EmailAddress)
 
@@ -47,6 +48,7 @@ func (r *AccountServiceHandler) CreateAccount(
 		entities.WithCommonID(commonID),
 		entities.WithEmailAddress(emailAddress),
 		entities.WithUserUsername(req.Msg.Username),
+		entities.WithClerkUserID(req.Msg.ClerkUserId),
 	)
 
 	// Create a new user

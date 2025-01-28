@@ -10,6 +10,7 @@ type Account struct {
 	gorm.Model
 	ID           uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
 	CommonID     uuid.UUID `gorm:"type:uuid;index:idx_common_id;not null;"`
+	ClerkUserID  string    `gorm:"unique;index:idx_clerk_user_id;not null;"`
 	UserName     string    `gorm:"unique;index:idx_user_name;index:idx_user_name_email;not null;"`
 	EmailAddress string    `gorm:"unique;index:idx_email;index:idx_user_name_email;not null;"`
 }

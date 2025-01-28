@@ -39,6 +39,7 @@ func (r AccountRepository) CreateAccount(ctx context.Context, user userEntities.
 	// Create account
 	account := &models.Account{
 		CommonID:     user.CommonID.Value(),
+		ClerkUserID:  user.ClerkUserID,
 		EmailAddress: user.EmailAddress.String(),
 		UserName:     user.Username,
 	}
