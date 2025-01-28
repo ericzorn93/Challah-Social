@@ -3,11 +3,9 @@ package services
 import (
 	"apps/services/accounts-worker/internal/app/ports"
 	"context"
-	"fmt"
 	"libs/backend/auth/m2m"
 	boot "libs/backend/boot"
 	userEntities "libs/backend/domain/user/entities"
-	"libs/backend/httpauth"
 	accountsapiv1 "libs/backend/proto-gen/go/accounts/accountsapi/v1"
 	"libs/backend/proto-gen/go/accounts/accountsapi/v1/accountsapiv1connect"
 	"log/slog"
@@ -29,7 +27,6 @@ type AccountServiceParams struct {
 	Logger          boot.Logger
 	AccountConsumer boot.AMQPConsumer
 	AccountsAPIURI  string
-	M2MClient       m2m.M2MGenerator
 }
 
 // NewAccountService will construct the auth service
@@ -40,25 +37,18 @@ func NewAccountService(params AccountServiceParams) AccountService {
 		Logger:                    params.Logger,
 		AccountConsumer:           params.AccountConsumer,
 		RegistrationServiceClient: registrationServiceClient,
-		M2MClient:                 params.M2MClient,
 	}
 }
 
 // RegisterUser is an application interface method to handle user registration
 // webhooks
 func (s AccountService) CreateAccount(ctx context.Context, user userEntities.User) error {
-	// Obtain machine-to-machine-token
-	m2mToken, err := s.M2MClient.GetToken()
-	if err != nil {
-		return fmt.Errorf("m2m token generation failure")
-	}
-
 	// Call the accounts-api to create the account
 	req := connect.NewRequest(&accountsapiv1.CreateAccountRequest{
 		Username:     user.Username,
 		EmailAddress: user.EmailAddress.String(),
 	})
-	req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())
+	// req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())
 	account, err := s.RegistrationServiceClient.CreateAccount(ctx, req)
 
 	if err != nil {

@@ -22,12 +22,12 @@ type LavinMQHandler struct {
 }
 
 // LavinMQHandler is the constructor for LavinMQHandler
-func NewLavinMQHandler(logger boot.Logger, consumer boot.AMQPConsumer, app app.App, m2mGenerator m2m.M2MGenerator) LavinMQHandler {
+func NewLavinMQHandler(logger boot.Logger, consumer boot.AMQPConsumer, app app.App) LavinMQHandler {
 	return LavinMQHandler{
 		Logger:   logger,
 		Consumer: consumer,
 		App:      app,
-		M2M:      m2mGenerator,
+		// M2M:      m2mGenerator,
 	}
 }
 
@@ -52,14 +52,13 @@ func (h LavinMQHandler) HandleUserRegisteredEvent(ctx context.Context, queueName
 		// Unmarshal the message to userRegisteredEvent
 		var userRegisteredEvent accountseventsv1.UserRegistered
 		proto.Unmarshal(msg.Body, &userRegisteredEvent)
+		h.Logger.Info("User printed", slog.Any("userRegisteredEvent", userRegisteredEvent))
 
 		// Parse CommonID
-		commonID := userValueObjects.NewCommonIDFromString(userRegisteredEvent.CommonId)
 		emailAddress := userValueObjects.NewEmailAddress(userRegisteredEvent.EmailAddress)
 
 		// Create User in Accounts API
 		user := userEntities.NewUser(
-			userEntities.WithCommonID(commonID),
 			userEntities.WithEmailAddress(emailAddress),
 			userEntities.WithUserUsername(userRegisteredEvent.Username),
 		)
