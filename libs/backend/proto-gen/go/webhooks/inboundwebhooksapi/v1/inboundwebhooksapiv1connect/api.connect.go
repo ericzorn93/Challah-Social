@@ -35,22 +35,22 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// InboundWebhooksAuthServiceUserRegisteredProcedure is the fully-qualified name of the
-	// InboundWebhooksAuthService's UserRegistered RPC.
-	InboundWebhooksAuthServiceUserRegisteredProcedure = "/webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService/UserRegistered"
+	// InboundWebhooksAuthServiceClerkAuthUserEventProcedure is the fully-qualified name of the
+	// InboundWebhooksAuthService's ClerkAuthUserEvent RPC.
+	InboundWebhooksAuthServiceClerkAuthUserEventProcedure = "/webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService/ClerkAuthUserEvent"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	inboundWebhooksAuthServiceServiceDescriptor              = v1.File_webhooks_inboundwebhooksapi_v1_api_proto.Services().ByName("InboundWebhooksAuthService")
-	inboundWebhooksAuthServiceUserRegisteredMethodDescriptor = inboundWebhooksAuthServiceServiceDescriptor.Methods().ByName("UserRegistered")
+	inboundWebhooksAuthServiceServiceDescriptor                  = v1.File_webhooks_inboundwebhooksapi_v1_api_proto.Services().ByName("InboundWebhooksAuthService")
+	inboundWebhooksAuthServiceClerkAuthUserEventMethodDescriptor = inboundWebhooksAuthServiceServiceDescriptor.Methods().ByName("ClerkAuthUserEvent")
 )
 
 // InboundWebhooksAuthServiceClient is a client for the
 // webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService service.
 type InboundWebhooksAuthServiceClient interface {
-	// Auth0
-	UserRegistered(context.Context, *connect.Request[v1.UserRegisteredRequest]) (*connect.Response[v11.Empty], error)
+	// ClerkAuthUserEvent is the endpoint that receives the user event from the Clerk Webhooks
+	ClerkAuthUserEvent(context.Context, *connect.Request[v1.ClerkUserAuthEventRequest]) (*connect.Response[v11.Empty], error)
 }
 
 // NewInboundWebhooksAuthServiceClient constructs a client for the
@@ -64,10 +64,10 @@ type InboundWebhooksAuthServiceClient interface {
 func NewInboundWebhooksAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) InboundWebhooksAuthServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &inboundWebhooksAuthServiceClient{
-		userRegistered: connect.NewClient[v1.UserRegisteredRequest, v11.Empty](
+		clerkAuthUserEvent: connect.NewClient[v1.ClerkUserAuthEventRequest, v11.Empty](
 			httpClient,
-			baseURL+InboundWebhooksAuthServiceUserRegisteredProcedure,
-			connect.WithSchema(inboundWebhooksAuthServiceUserRegisteredMethodDescriptor),
+			baseURL+InboundWebhooksAuthServiceClerkAuthUserEventProcedure,
+			connect.WithSchema(inboundWebhooksAuthServiceClerkAuthUserEventMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -75,19 +75,20 @@ func NewInboundWebhooksAuthServiceClient(httpClient connect.HTTPClient, baseURL 
 
 // inboundWebhooksAuthServiceClient implements InboundWebhooksAuthServiceClient.
 type inboundWebhooksAuthServiceClient struct {
-	userRegistered *connect.Client[v1.UserRegisteredRequest, v11.Empty]
+	clerkAuthUserEvent *connect.Client[v1.ClerkUserAuthEventRequest, v11.Empty]
 }
 
-// UserRegistered calls webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService.UserRegistered.
-func (c *inboundWebhooksAuthServiceClient) UserRegistered(ctx context.Context, req *connect.Request[v1.UserRegisteredRequest]) (*connect.Response[v11.Empty], error) {
-	return c.userRegistered.CallUnary(ctx, req)
+// ClerkAuthUserEvent calls
+// webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService.ClerkAuthUserEvent.
+func (c *inboundWebhooksAuthServiceClient) ClerkAuthUserEvent(ctx context.Context, req *connect.Request[v1.ClerkUserAuthEventRequest]) (*connect.Response[v11.Empty], error) {
+	return c.clerkAuthUserEvent.CallUnary(ctx, req)
 }
 
 // InboundWebhooksAuthServiceHandler is an implementation of the
 // webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService service.
 type InboundWebhooksAuthServiceHandler interface {
-	// Auth0
-	UserRegistered(context.Context, *connect.Request[v1.UserRegisteredRequest]) (*connect.Response[v11.Empty], error)
+	// ClerkAuthUserEvent is the endpoint that receives the user event from the Clerk Webhooks
+	ClerkAuthUserEvent(context.Context, *connect.Request[v1.ClerkUserAuthEventRequest]) (*connect.Response[v11.Empty], error)
 }
 
 // NewInboundWebhooksAuthServiceHandler builds an HTTP handler from the service implementation. It
@@ -96,16 +97,16 @@ type InboundWebhooksAuthServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewInboundWebhooksAuthServiceHandler(svc InboundWebhooksAuthServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	inboundWebhooksAuthServiceUserRegisteredHandler := connect.NewUnaryHandler(
-		InboundWebhooksAuthServiceUserRegisteredProcedure,
-		svc.UserRegistered,
-		connect.WithSchema(inboundWebhooksAuthServiceUserRegisteredMethodDescriptor),
+	inboundWebhooksAuthServiceClerkAuthUserEventHandler := connect.NewUnaryHandler(
+		InboundWebhooksAuthServiceClerkAuthUserEventProcedure,
+		svc.ClerkAuthUserEvent,
+		connect.WithSchema(inboundWebhooksAuthServiceClerkAuthUserEventMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case InboundWebhooksAuthServiceUserRegisteredProcedure:
-			inboundWebhooksAuthServiceUserRegisteredHandler.ServeHTTP(w, r)
+		case InboundWebhooksAuthServiceClerkAuthUserEventProcedure:
+			inboundWebhooksAuthServiceClerkAuthUserEventHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -115,6 +116,6 @@ func NewInboundWebhooksAuthServiceHandler(svc InboundWebhooksAuthServiceHandler,
 // UnimplementedInboundWebhooksAuthServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedInboundWebhooksAuthServiceHandler struct{}
 
-func (UnimplementedInboundWebhooksAuthServiceHandler) UserRegistered(context.Context, *connect.Request[v1.UserRegisteredRequest]) (*connect.Response[v11.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService.UserRegistered is not implemented"))
+func (UnimplementedInboundWebhooksAuthServiceHandler) ClerkAuthUserEvent(context.Context, *connect.Request[v1.ClerkUserAuthEventRequest]) (*connect.Response[v11.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService.ClerkAuthUserEvent is not implemented"))
 }

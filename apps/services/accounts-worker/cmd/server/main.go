@@ -15,7 +15,6 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"libs/backend/auth/m2m"
 	boot "libs/backend/boot"
 	"libs/backend/eventing"
 )
@@ -70,22 +69,10 @@ func run() error {
 			Handlers: []boot.AMQPHandler{
 				func(hp boot.AMQPHandlerParams) error {
 
-					// Initialize M2M Token Client
-					m2mClient, err := m2m.NewM2M(
-						config.Auth0Domain,
-						config.Auth0Audience,
-						config.Auth0ClientID,
-						config.Auth0ClientSecret,
-					)
-					if err != nil {
-						return err
-					}
-
 					// Initialize services
 					accountService := services.NewAccountService(services.AccountServiceParams{
 						Logger:         logger,
 						AccountsAPIURI: config.AccountsAPIUri,
-						M2MClient:      m2mClient,
 					})
 
 					// Initialize the application
@@ -96,7 +83,6 @@ func run() error {
 						logger,
 						hp.AMQPController.Consumer,
 						application,
-						m2mClient,
 					)
 
 					// Handle the user registered event

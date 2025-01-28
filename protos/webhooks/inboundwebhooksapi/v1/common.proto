@@ -1,5 +1,0 @@
-syntax = "proto3";
-
-package webhooks.inboundwebhooksapi.v1;
-
-message Placeholder {}

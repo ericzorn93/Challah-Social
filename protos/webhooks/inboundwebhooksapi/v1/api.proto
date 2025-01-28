@@ -7,35 +7,22 @@ import "google/protobuf/any.proto";
 import "buf/validate/validate.proto";
 
 import "common/v1/empty.proto";
+import "webhooks/inboundwebhooksapi/v1/clerk_auth.proto";
 
 service InboundWebhooksAuthService {
-    // Auth0
-    rpc UserRegistered(UserRegisteredRequest) returns (common.v1.Empty) {
+    // ClerkAuthUserEvent is the endpoint that receives the user event from the Clerk Webhooks
+    rpc ClerkAuthUserEvent(ClerkUserAuthEventRequest) returns (common.v1.Empty) {
         option (google.api.http) = {
-            post: "/v1/webhooks/inbound/auth/user/registered"
+            post: "/v1/webhooks/inbound/auth/user"
             body: "*"
         };
     }
 }
 
-// UserRegisteredRequest defines the incoming data for the user created event from
-// Auth0 Actions after the user has registered for the first time
-message UserRegisteredRequest {
-    string username = 1 [(buf.validate.field).string.min_len = 1];
-    string email_address = 2 [(buf.validate.field).string.email = true];
-    string common_id = 3 [(buf.validate.field).string.min_len = 1];
-}
-
-// UserEventType defines the type of user event
-// coming from the Clerk Webhooks
-enum UserEventType {
-    UNKNOWN= 0;
-    USER_CREATED = 1;
-}
-
-// UserCreatedRequest defines the incoming data for the user created event from
+// ClerkUserAuthEventRequest defines the incoming data for the user event from
 // the Clerk Webhooks
-message UserCreatedRequest {
-    UserEventType type = 1;
+message ClerkUserAuthEventRequest {
+    string type = 1;
     string object = 2;
+    ClerkUser data = 3;
 }

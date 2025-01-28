@@ -18,6 +18,7 @@ type User struct {
 	PhoneNumberVerified  bool
 	Strategy             string
 	CommonID             valueobjects.CommonID
+	ClerkUserID          string
 	Metadata             map[string]any
 	CreatedAt            time.Time
 	UpdatedAt            time.Time
@@ -93,6 +94,13 @@ func WithStrategy(strategy string) UserOption {
 func WithCommonID(commonID valueobjects.CommonID) UserOption {
 	return func(u *User) {
 		u.CommonID = commonID
+	}
+}
+
+// WithClerkUserID adds the user's clerk user ID to the struct
+func WithClerkUserID(clerkUserID string) UserOption {
+	return func(u *User) {
+		u.ClerkUserID = clerkUserID
 	}
 }
 
