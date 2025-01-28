@@ -37,9 +37,11 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	ctx context.Context,
 	req *connect.Request[inboundwebhooksapiv1.ClerkUserAuthEventRequest],
 ) (*connect.Response[commonv1.Empty], error) {
-	eventType := req.Msg.GetType()
 
-	switch eventType {
+	// Convert event type to enum value
+	finalEventType := h.convertUserEventTypeToEnum(req.Msg.GetType())
+
+	switch finalEventType {
 	case inboundwebhooksapiv1.ClerkUserEventType_CLERK_USER_EVENT_TYPE_USER_CREATED:
 		data := req.Msg.GetData()
 		h.Logger.Info("User printed", slog.Any("user", data))
@@ -65,4 +67,23 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	default:
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("invalid event type"))
 	}
+}
+
+// convertUserEventTypeToEnum will convert the user event type to an enum value for the ingestion of
+// the clerk user events
+func (*AuthHandler) convertUserEventTypeToEnum(eventType string) inboundwebhooksapiv1.ClerkUserEventType {
+	const (
+		userCreatedEventType string = "user.created"
+	)
+
+	var finalEventType inboundwebhooksapiv1.ClerkUserEventType
+
+	switch eventType {
+	case userCreatedEventType:
+		finalEventType = inboundwebhooksapiv1.ClerkUserEventType_CLERK_USER_EVENT_TYPE_USER_CREATED
+	default:
+		finalEventType = inboundwebhooksapiv1.ClerkUserEventType_CLERK_USER_EVENT_TYPE_UNKNOWN
+	}
+
+	return finalEventType
 }

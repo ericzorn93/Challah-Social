@@ -279,7 +279,7 @@
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/v1ClerkUserEventType"
+          "type": "string"
         },
         "object": {
           "type": "string"
@@ -289,15 +289,6 @@
         }
       },
       "title": "ClerkUserAuthEventRequest defines the incoming data for the user event from\nthe Clerk Webhooks"
-    },
-    "v1ClerkUserEventType": {
-      "type": "string",
-      "enum": [
-        "CLERK_USER_EVENT_TYPE_UNKNOWN",
-        "CLERK_USER_EVENT_TYPE_USER_CREATED"
-      ],
-      "default": "CLERK_USER_EVENT_TYPE_UNKNOWN",
-      "title": "ClerkUserEventType defines the type of user event\ncoming from the Clerk Webhooks"
     },
     "v1Empty": {
       "type": "object",

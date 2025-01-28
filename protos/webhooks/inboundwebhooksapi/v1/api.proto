@@ -22,7 +22,7 @@ service InboundWebhooksAuthService {
 // ClerkUserAuthEventRequest defines the incoming data for the user event from
 // the Clerk Webhooks
 message ClerkUserAuthEventRequest {
-    ClerkUserEventType type = 1;
+    string type = 1;
     string object = 2;
     ClerkUser data = 3;
 }
