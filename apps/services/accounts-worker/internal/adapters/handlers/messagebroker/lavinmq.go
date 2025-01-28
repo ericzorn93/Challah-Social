@@ -27,7 +27,6 @@ func NewLavinMQHandler(logger boot.Logger, consumer boot.AMQPConsumer, app app.A
 		Logger:   logger,
 		Consumer: consumer,
 		App:      app,
-		// M2M:      m2mGenerator,
 	}
 }
 
@@ -52,7 +51,7 @@ func (h LavinMQHandler) HandleUserRegisteredEvent(ctx context.Context, queueName
 		// Unmarshal the message to userRegisteredEvent
 		var userRegisteredEvent accountseventsv1.UserRegistered
 		proto.Unmarshal(msg.Body, &userRegisteredEvent)
-		h.Logger.Info("User printed", slog.Any("userRegisteredEvent", userRegisteredEvent))
+		h.Logger.Info("User printed", slog.Any("userRegisteredEvent", &userRegisteredEvent))
 
 		// Parse CommonID
 		emailAddress := userValueObjects.NewEmailAddress(userRegisteredEvent.EmailAddress)
