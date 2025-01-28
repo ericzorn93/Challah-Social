@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package options;
+
+import "google/protobuf/descriptor.proto";
+
+// EnumValueOptions is used to add custom options to the EnumValueDescriptorProto
+extend google.protobuf.EnumValueOptions {
+    optional string string_value = 50000;  // Use a unique number
+}
+

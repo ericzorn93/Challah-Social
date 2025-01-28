@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"connectrpc.com/connect"
-	"github.com/auth0/go-jwt-middleware/v2/validator"
 )
 
 const (
@@ -64,7 +63,7 @@ func (a AuthInerceptor) Incoming() connect.UnaryInterceptorFunc {
 			}
 
 			// Set the validated custom claims to the context
-			ctx = SetClaimsToContext(ctx, claims.(*validator.ValidatedClaims))
+			ctx = SetClaimsToContext(ctx, claims)
 
 			return next(ctx, req)
 		})

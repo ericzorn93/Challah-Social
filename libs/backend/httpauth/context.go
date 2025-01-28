@@ -3,7 +3,7 @@ package httpauth
 import (
 	"context"
 
-	"github.com/auth0/go-jwt-middleware/v2/validator"
+	"github.com/clerk/clerk-sdk-go/v2"
 )
 
 // accessTokenClaimsKey used for obtaining the access token from the context
@@ -19,14 +19,14 @@ type authMiddlewareContextKey struct{}
 var AuthMiddlewareContextKey authMiddlewareContextKey = authMiddlewareContextKey{}
 
 // SetClaimsToContext will assign the custom claims to the conext
-func SetClaimsToContext(ctx context.Context, claims *validator.ValidatedClaims) context.Context {
-	return context.WithValue(ctx, ClaimsKey, claims.CustomClaims.(*CustomClaims))
+func SetClaimsToContext(ctx context.Context, claims *clerk.SessionClaims) context.Context {
+	return context.WithValue(ctx, ClaimsKey, claims)
 }
 
 // GetClaimsFromContext will pull the custom claims out of the context
-func GetClaimsFromContext(ctx context.Context) (*CustomClaims, error) {
+func GetClaimsFromContext(ctx context.Context) (*clerk.SessionClaims, error) {
 	claims := ctx.Value(ClaimsKey)
-	customClaimsValidated, ok := claims.(*CustomClaims)
+	customClaimsValidated, ok := claims.(*clerk.SessionClaims)
 
 	if !ok {
 		return nil, ErrCustomClaimsNotValid
