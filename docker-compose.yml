@@ -72,6 +72,24 @@ services:
       - cockroachdb-cluster
   ############ /ACCOUNTS GRAPHQL ############
 
+  ############ PROFILE API ############
+  profile-api:
+    image: challah-social/profile-api
+    container_name: challah-social-profile-api
+    build:
+      context: .
+      dockerfile: ./apps/services/profile-api/Dockerfile
+    ports:
+      - 3004:3000
+    env_file:
+      - ./apps/services/profile-api/.env.local
+    volumes:
+      - profile-api:/app
+    depends_on:
+      - inbound-webhooks-api
+      - cockroachdb-cluster
+  ############ /PROFILE API ############
+
   ############ LAVINMQ ############
   lavinmq:
     image: cloudamqp/lavinmq:latest
@@ -124,5 +142,6 @@ volumes:
   accounts-api:
   accounts-worker:
   accounts-graphql:
+  profile-api:
   lavinmq:
   cockroachdb-cluster:
