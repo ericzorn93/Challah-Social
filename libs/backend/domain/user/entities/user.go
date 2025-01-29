@@ -128,6 +128,7 @@ func WithUpdatedAt(updatedAt time.Time) UserOption {
 // NewUser is the constructor for a User struct
 func NewUser(opts ...UserOption) User {
 	u := User{
+		CommonID: valueobjects.NewCommonID(),
 		Metadata: make(map[string]any),
 	}
 

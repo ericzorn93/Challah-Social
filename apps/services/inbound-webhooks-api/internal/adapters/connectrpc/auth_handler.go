@@ -58,6 +58,8 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 		if err := h.Application.AuthService.RegisterUser(
 			userEntities.NewUser(
 				userEntities.WithClerkUserID(clerkUserId),
+				userEntities.WithUserFirstName(data.GetFirstName()),
+				userEntities.WithUserLastName(data.GetLastName()),
 				userEntities.WithEmailAddress(emailAddress),
 				userEntities.WithUserUsername(userName),
 				userEntities.WithMetadata(make(map[string]any, 0)),

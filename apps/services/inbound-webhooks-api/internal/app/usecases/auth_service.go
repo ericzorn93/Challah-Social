@@ -42,9 +42,11 @@ func (s AuthService) RegisterUser(user userEntities.User) error {
 
 	// Create and send event
 	userRegisteredEvent := &accountseventsv1.UserRegistered{
+		ClerkUserId:  user.ClerkUserID,
+		FirstName:    user.FirstName,
+		LastName:     user.LastName,
 		Username:     user.Username,
 		EmailAddress: user.EmailAddress.String(),
-		ClerkUserId:  user.ClerkUserID,
 	}
 	b, err := proto.Marshal(userRegisteredEvent)
 	if err != nil {

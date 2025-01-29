@@ -45,9 +45,11 @@ func NewAccountService(params AccountServiceParams) AccountService {
 func (s AccountService) CreateAccount(ctx context.Context, user userEntities.User) error {
 	// Call the accounts-api to create the account
 	req := connect.NewRequest(&accountsapiv1.CreateAccountRequest{
+		ClerkUserId:  user.ClerkUserID,
+		FirstName:    user.FirstName,
+		LastName:     user.LastName,
 		Username:     user.Username,
 		EmailAddress: user.EmailAddress.String(),
-		ClerkUserId:  user.ClerkUserID,
 	})
 	// req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())
 	account, err := s.RegistrationServiceClient.CreateAccount(ctx, req)

@@ -39,13 +39,13 @@ func (r *AccountServiceHandler) CreateAccount(
 	ctx context.Context,
 	req *connect.Request[accountsapiv1.CreateAccountRequest],
 ) (*connect.Response[accountsapiv1.CreateAcountResponse], error) {
-	// Create New CommonID (in-memory) and EmailAddress
-	commonID := userValueObjects.NewCommonID()
+	// Parse EmailAddress
 	emailAddress := userValueObjects.NewEmailAddress(req.Msg.EmailAddress)
 
 	// Convert to user domain type
 	user := entities.NewUser(
-		entities.WithCommonID(commonID),
+		entities.WithUserFirstName(req.Msg.FirstName),
+		entities.WithUserLastName(req.Msg.LastName),
 		entities.WithEmailAddress(emailAddress),
 		entities.WithUserUsername(req.Msg.Username),
 		entities.WithClerkUserID(req.Msg.ClerkUserId),
