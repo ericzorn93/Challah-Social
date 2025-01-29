@@ -16,4 +16,5 @@ message UserRegistered {
     string username = 3 [(buf.validate.field).string.min_len = 1];
     string email_address = 4 [(buf.validate.field).string.email = true];
     string clerk_user_id = 5 [(buf.validate.field).string.min_len = 1];
+    string gender = 6;
 }

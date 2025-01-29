@@ -44,6 +44,7 @@ func (r AccountRepository) CreateAccount(ctx context.Context, user userEntities.
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
 		EmailAddress: user.EmailAddress.String(),
+		Gender:       user.Gender,
 	}
 
 	// Save the account in the database

@@ -46,6 +46,7 @@ func (s AuthService) RegisterUser(user userEntities.User) error {
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
 		Username:     user.Username,
+		Gender:       user.Gender,
 		EmailAddress: user.EmailAddress.String(),
 	}
 	b, err := proto.Marshal(userRegisteredEvent)

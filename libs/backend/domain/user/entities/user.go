@@ -19,6 +19,7 @@ type User struct {
 	Strategy             string
 	CommonID             valueobjects.CommonID
 	ClerkUserID          string
+	Gender               string
 	Metadata             map[string]any
 	CreatedAt            time.Time
 	UpdatedAt            time.Time
@@ -101,6 +102,13 @@ func WithCommonID(commonID valueobjects.CommonID) UserOption {
 func WithClerkUserID(clerkUserID string) UserOption {
 	return func(u *User) {
 		u.ClerkUserID = clerkUserID
+	}
+}
+
+// WithUserGender sets the user's selected gender
+func WithUserGender(gender string) UserOption {
+	return func(u *User) {
+		u.Gender = gender
 	}
 }
 

@@ -49,6 +49,7 @@ func (s AccountService) CreateAccount(ctx context.Context, user userEntities.Use
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
 		Username:     user.Username,
+		Gender:       user.Gender,
 		EmailAddress: user.EmailAddress.String(),
 	})
 	// req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())

@@ -62,6 +62,7 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 				userEntities.WithUserLastName(data.GetLastName()),
 				userEntities.WithEmailAddress(emailAddress),
 				userEntities.WithUserUsername(userName),
+				userEntities.WithUserGender(data.GetGender()),
 				userEntities.WithMetadata(make(map[string]any, 0)),
 			),
 		); err != nil {

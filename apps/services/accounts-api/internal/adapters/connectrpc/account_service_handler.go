@@ -44,11 +44,12 @@ func (r *AccountServiceHandler) CreateAccount(
 
 	// Convert to user domain type
 	user := entities.NewUser(
+		entities.WithClerkUserID(req.Msg.ClerkUserId),
 		entities.WithUserFirstName(req.Msg.FirstName),
 		entities.WithUserLastName(req.Msg.LastName),
 		entities.WithEmailAddress(emailAddress),
 		entities.WithUserUsername(req.Msg.Username),
-		entities.WithClerkUserID(req.Msg.ClerkUserId),
+		entities.WithUserGender(req.Msg.Gender),
 	)
 
 	// Create a new user

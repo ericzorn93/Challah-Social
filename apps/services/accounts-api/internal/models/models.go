@@ -15,4 +15,5 @@ type Account struct {
 	LastName     string    `gorm:"not null;"`
 	UserName     string    `gorm:"unique;index:idx_user_name;index:idx_user_name_email;where:user_name IS NOT NUll;"`
 	EmailAddress string    `gorm:"unique;index:idx_email;index:idx_user_name_email;not null;"`
+	Gender       string
 }
