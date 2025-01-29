@@ -30,7 +30,13 @@ func (a AuthInerceptor) Incoming() connect.UnaryInterceptorFunc {
 			ctx context.Context,
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
+			m2mTokenHeader := req.Header().Get(M2MHeaderKey)
 			authTokenHeaderValue := req.Header().Get(AuthorizationHeaderKey)
+
+			// Check if M2M token is present and don't authenticate
+			if m2mTokenHeader == M2MHeaderValue {
+				return next(ctx, req)
+			}
 
 			// Check token in handlers.
 			if authTokenHeaderValue == "" {
