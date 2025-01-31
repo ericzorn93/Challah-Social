@@ -43,12 +43,12 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	// Validate the Clerk Webhook
 	jsonBody, err := h.marshalProtobufMessageToJSON(req.Msg)
 	if err != nil {
-		h.Logger.Error("Error validating svix headers", slog.Any("error", err))
+		h.Logger.Error("Error marshaling protobuf message to JSON", slog.Any("error", err))
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
 	if err := utils.ValidateClerkAuthWebhook(req.Header(), jsonBody); err != nil {
-		h.Logger.Error("Error validating svix headers", slog.Any("error", err))
+		h.Logger.Error("Error validating clerk auth user.created webhook", slog.Any("error", err))
 		return nil, connect.NewError(connect.CodeUnauthenticated, err)
 	}
 
