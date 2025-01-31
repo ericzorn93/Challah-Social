@@ -1,0 +1,16 @@
+_format_version: "3.0"
+services:
+  - name: inbound-webhooks-api
+    url: ${INBOUND_WEBHOOKS_API_URL}
+    routes:
+      - name: user-events
+        paths:
+          - /webhooks/auth/user
+        methods:
+          - POST
+        strip_path: true  # Ensures Kong removes the matched regex path before forwarding
+        plugins:
+          - name: request-transformer
+            config:
+              replace:
+                uri: /webhooks.inboundwebhooksapi.v1.InboundWebhooksAuthService/ClerkAuthUserEvent
