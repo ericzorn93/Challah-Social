@@ -6,8 +6,11 @@ import (
 	"log/slog"
 
 	"connectrpc.com/connect"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 
 	"apps/services/inbound-webhooks-api/internal/app"
+	"apps/services/inbound-webhooks-api/internal/utils"
 	boot "libs/backend/boot"
 	userEntities "libs/backend/domain/user/entities"
 	userValueObjects "libs/backend/domain/user/valueobjects"
@@ -37,6 +40,17 @@ func (h *AuthHandler) ClerkAuthUserEvent(
 	ctx context.Context,
 	req *connect.Request[inboundwebhooksapiv1.ClerkUserAuthEventRequest],
 ) (*connect.Response[commonv1.Empty], error) {
+	// Validate the Clerk Webhook
+	jsonBody, err := h.marshalProtobufMessageToJSON(req.Msg)
+	if err != nil {
+		h.Logger.Error("Error validating svix headers", slog.Any("error", err))
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	if err := utils.ValidateClerkAuthWebhook(req.Header(), jsonBody); err != nil {
+		h.Logger.Error("Error validating svix headers", slog.Any("error", err))
+		return nil, connect.NewError(connect.CodeUnauthenticated, err)
+	}
 
 	// Convert event type to enum value
 	finalEventType := h.convertClerkAuthUserEventTypeToEnum(req.Msg.GetType())
@@ -90,4 +104,15 @@ func (*AuthHandler) convertClerkAuthUserEventTypeToEnum(eventType string) inboun
 	}
 
 	return finalEventType
+}
+
+// marshalProtobufMessageToJSON will marshal a protobuf message to a byte slice for JSON
+func (h AuthHandler) marshalProtobufMessageToJSON(msg proto.Message) ([]byte, error) {
+	marshaler := protojson.MarshalOptions{
+		UseProtoNames:   false,
+		EmitUnpopulated: true,
+		Indent:          "  ",
+	}
+
+	return marshaler.Marshal(msg)
 }
