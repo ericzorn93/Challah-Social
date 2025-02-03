@@ -46,6 +46,7 @@ services:
     volumes:
       - inbound-webhooks-api:/app
     depends_on:
+      - kong-api-gateway
       - lavinmq
   ############ /INBOUND WEBHOOKS API ############
 
@@ -166,6 +167,7 @@ services:
         '/supergraph.graphql',
       ]
     depends_on:
+      - kong-api-gateway
       - accounts-graphql
   ############ /Apollo Router ############
 volumes:
