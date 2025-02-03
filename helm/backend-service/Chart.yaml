@@ -1,6 +1,6 @@
 apiVersion: v2
 name: backend-service
-description: A Helm chart for Kubernetes
+description: A Helm Chart for K8s that deploys a backend service to the cluser
 
 # A chart can be either an 'application' or a 'library' chart.
 #
