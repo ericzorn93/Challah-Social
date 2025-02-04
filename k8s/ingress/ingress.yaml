@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: accounts-api-ingress
+  name: challah-social-ingress
   namespace: default
   annotations:
-    konghq.com/strip-path: "true"  # Ensures Kong forwards clean paths
+    konghq.com/strip-path: 'true' # Ensures Kong forwards clean paths
 spec:
   ingressClassName: kong
   rules:
-    - host: accounts-api  # Replace with your domain or internal hostname
+    - host: inbound-webhooks-api # Replace with your domain or internal hostname
       http:
         paths:
-          - path: /accounts
+          - path: /webhooks
             pathType: Prefix
             backend:
               service:
-                name: accounts-api  # Must match the ClusterIP service name
+                name: inbound-webhooks-api # Must match the ClusterIP service name
                 port:
-                  number: 9090
+                  number: 3000

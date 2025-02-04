@@ -31,10 +31,14 @@
     },
     "docker-build": {
       "dependsOn": ["build"],
-      "commands": [
-        "docker build -f apps/services/accounts-api/Dockerfile -t accounts-api:latest .",
-        "kind load docker-image accounts-api:latest --name=challah-social"
-      ]
+      "command": "docker build -f apps/services/accounts-api/Dockerfile -t accounts-api:latest ."
+    },
+    "mount-k8s-image": {
+      "dependsOn": ["docker-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "kind load docker-image accounts-api:latest --name=challah-social"
+      }
     },
     "deploy": {
       "executor": "nx:run-commands",
