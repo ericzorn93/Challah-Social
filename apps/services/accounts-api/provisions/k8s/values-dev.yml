@@ -1,4 +1,9 @@
 fullname: accounts-api
-replicaCount: 2
+replicaCount: 1
 autoscaling:
   enabled: false
+labels:
+  app: accounts-api
+service:
+  type: ClusterIP
+  port: 9090
