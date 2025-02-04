@@ -7,3 +7,7 @@ labels:
 service:
   type: ClusterIP
   port: 9090
+image:
+  repository: accounts-api
+  tag: latest
+  pullPolicy: Never

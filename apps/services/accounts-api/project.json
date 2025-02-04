@@ -31,7 +31,10 @@
     },
     "docker-build": {
       "dependsOn": ["build"],
-      "command": "docker build -f apps/services/accounts-api/Dockerfile . -t accounts-api:latest"
+      "commands": [
+        "docker build -f apps/services/accounts-api/Dockerfile -t accounts-api:latest .",
+        "kind load docker-image accounts-api:latest --name=challah-social"
+      ]
     },
     "deploy": {
       "executor": "nx:run-commands",
