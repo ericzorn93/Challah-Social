@@ -40,3 +40,13 @@ docker_build('challah-social/inbound-webhooks-api', '.',
         restart_container()
     ]
 )
+
+# TODO: Adding Helm Chart Build
+# load('ext://helm_resource', 'helm_resource', 'helm_repo')
+# yaml = helm(
+#     "./k8s/helm/backend-service",
+#     name='accounts-api-helm',
+#     namespace='default',
+#     values=['./apps/services/accounts-api/provisions/k8s/values-dev.yml'],
+# )
+# k8s_yaml(yaml)
