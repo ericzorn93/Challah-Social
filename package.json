@@ -1,6 +1,6 @@
 {
   "name": "@challah-social/source",
-  "version": "0.0.48",
+  "version": "0.0.50",
   "license": "MIT",
   "engines": {
     "node": ">=22",
