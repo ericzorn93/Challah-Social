@@ -21,9 +21,12 @@ service AccountService {
 
 // CreateAccountRequest defines the incoming data for the create account request
 message CreateAccountRequest {
-    string username = 1 [(buf.validate.field).string.min_len = 1];
-    string email_address = 2 [(buf.validate.field).string.email = true];
-    string clerk_user_id = 3 [(buf.validate.field).string.min_len = 1];
+    string first_name= 1 [(buf.validate.field).string.min_len = 1];
+    string last_name = 2 [(buf.validate.field).string.min_len = 1];
+    string username = 3 [(buf.validate.field).string.min_len = 1];
+    string email_address = 4 [(buf.validate.field).string.email = true];
+    string clerk_user_id = 5 [(buf.validate.field).string.min_len = 1];
+    string gender = 6;
 }
 
 // CreateAcountResponse defines the response for the create account request

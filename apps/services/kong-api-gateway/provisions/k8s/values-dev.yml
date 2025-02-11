@@ -1,0 +1,13 @@
+fullname: kong-api-gateway
+replicaCount: 1
+autoscaling:
+  enabled: false
+labels:
+  app: kong-api-gateway
+service:
+  type: ClusterIP
+  port: 3000
+image:
+  repository: kong-api-gateway
+  tag: latest
+  pullPolicy: Never

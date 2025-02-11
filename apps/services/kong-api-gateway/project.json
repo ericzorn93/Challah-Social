@@ -1,0 +1,25 @@
+{
+  "name": "kong-api-gateway",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/services/kong-api-gateway",
+  "tags": ["api", "proxy", "service", "backend"],
+  "targets": {
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/services/kong-api-gateway/Dockerfile . -t kong-api-gateway:latest"
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "flyctl deploy -c apps/services/kong-api-gateway/fly.toml -y",
+          "flyctl scale count 2 -r iad -c apps/services/kong-api-gateway/fly.toml -y",
+          "flyctl scale count 0 -r ewr -c apps/services/kong-api-gateway/fly.toml -y",
+          "flyctl scale count 0 -r lax -c apps/services/kong-api-gateway/fly.toml -y",
+          "flyctl scale count 0 -r ord -c apps/services/kong-api-gateway/fly.toml -y"
+        ]
+      }
+    }
+  }
+}

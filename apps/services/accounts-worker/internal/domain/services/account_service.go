@@ -6,6 +6,7 @@ import (
 	"libs/backend/auth/m2m"
 	boot "libs/backend/boot"
 	userEntities "libs/backend/domain/user/entities"
+	"libs/backend/httpauth"
 	accountsapiv1 "libs/backend/proto-gen/go/accounts/accountsapi/v1"
 	"libs/backend/proto-gen/go/accounts/accountsapi/v1/accountsapiv1connect"
 	"log/slog"
@@ -45,11 +46,14 @@ func NewAccountService(params AccountServiceParams) AccountService {
 func (s AccountService) CreateAccount(ctx context.Context, user userEntities.User) error {
 	// Call the accounts-api to create the account
 	req := connect.NewRequest(&accountsapiv1.CreateAccountRequest{
-		Username:     user.Username,
-		EmailAddress: user.EmailAddress.String(),
 		ClerkUserId:  user.ClerkUserID,
+		FirstName:    user.FirstName,
+		LastName:     user.LastName,
+		Username:     user.Username,
+		Gender:       user.Gender,
+		EmailAddress: user.EmailAddress.String(),
 	})
-	// req.Header().Add(httpauth.AuthorizationHeaderKey, m2mToken.GetHeaderValue())
+	req.Header().Add(httpauth.M2MHeaderKey, httpauth.M2MHeaderValue)
 	account, err := s.RegistrationServiceClient.CreateAccount(ctx, req)
 
 	if err != nil {
