@@ -1,13 +1,13 @@
-fullname: accounts-api
+fullname: accounts-worker
 replicaCount: 1
 autoscaling:
   enabled: false
 labels:
-  app: accounts-api
+  app: accounts-worker
 service:
   type: ClusterIP
   port: 3000
 image:
-  repository: accounts-api
+  repository: accounts-worker
   tag: latest
   pullPolicy: Never

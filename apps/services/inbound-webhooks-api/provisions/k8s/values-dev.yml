@@ -1,13 +1,13 @@
-fullname: accounts-api
+fullname: inbound-webhooks-api
 replicaCount: 1
 autoscaling:
   enabled: false
 labels:
-  app: accounts-api
+  app: inbound-webhooks-api
 service:
   type: ClusterIP
   port: 3000
 image:
-  repository: accounts-api
+  repository: inbound-webhooks-api
   tag: latest
   pullPolicy: Never

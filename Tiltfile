@@ -1,5 +1,9 @@
+# Dependencies
+load('ext://helm_resource', 'helm_resource', 'helm_repo')
+
 # Primary Docker Compose Imports
 docker_compose(["./docker-compose.yml"])
+
 
 # Accounts GraphQL
 docker_build('challah-social/accounts-graphql', '.',
@@ -40,3 +44,18 @@ docker_build('challah-social/inbound-webhooks-api', '.',
         restart_container()
     ]
 )
+
+# TODO: Adding Helm Chart Build
+# accountsAPIYaml = helm(
+#     "./k8s/helm/backend-service",
+#     name='accounts-api-helm',
+#     namespace='default',
+#     values=['./apps/services/accounts-api/provisions/k8s/values-dev.yml'],
+# )
+# accountsGraphQLYaml = helm(
+#     "./k8s/helm/backend-service",
+#     name='accounts-grapqhl-helm',
+#     namespace='default',
+#     values=['./apps/services/accounts-graphql/provisions/k8s/values-dev.yml'],
+# )
+# k8s_yaml([accountsAPIYaml, accountsGraphQLYaml])

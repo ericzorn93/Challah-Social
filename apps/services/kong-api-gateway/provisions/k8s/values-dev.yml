@@ -1,13 +1,13 @@
-fullname: accounts-api
+fullname: kong-api-gateway
 replicaCount: 1
 autoscaling:
   enabled: false
 labels:
-  app: accounts-api
+  app: kong-api-gateway
 service:
   type: ClusterIP
   port: 3000
 image:
-  repository: accounts-api
+  repository: kong-api-gateway
   tag: latest
   pullPolicy: Never

@@ -33,6 +33,13 @@
       "dependsOn": ["build"],
       "command": "docker build -f apps/services/inbound-webhooks-api/Dockerfile . -t inbound-webhooks-api:latest"
     },
+    "mount-k8s-image": {
+      "dependsOn": ["docker-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "kind load docker-image inbound-webhooks-api:latest --name=challah-social"
+      }
+    },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {

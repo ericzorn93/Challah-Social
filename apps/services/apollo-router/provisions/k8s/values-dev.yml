@@ -1,13 +1,13 @@
-fullname: accounts-api
+fullname: apollo-router
 replicaCount: 1
 autoscaling:
   enabled: false
 labels:
-  app: accounts-api
+  app: apollo-router
 service:
   type: ClusterIP
   port: 3000
 image:
-  repository: accounts-api
+  repository: apollo-router
   tag: latest
   pullPolicy: Never

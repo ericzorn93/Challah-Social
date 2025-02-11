@@ -1,13 +1,13 @@
-fullname: accounts-api
+fullname: accounts-graphql
 replicaCount: 1
 autoscaling:
   enabled: false
 labels:
-  app: accounts-api
+  app: accounts-graphql
 service:
   type: ClusterIP
   port: 3000
 image:
-  repository: accounts-api
+  repository: accounts-graphql
   tag: latest
   pullPolicy: Never
