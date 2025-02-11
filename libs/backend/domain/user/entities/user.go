@@ -19,6 +19,7 @@ type User struct {
 	Strategy             string
 	CommonID             valueobjects.CommonID
 	ClerkUserID          string
+	Gender               string
 	Metadata             map[string]any
 	CreatedAt            time.Time
 	UpdatedAt            time.Time
@@ -104,6 +105,13 @@ func WithClerkUserID(clerkUserID string) UserOption {
 	}
 }
 
+// WithUserGender sets the user's selected gender
+func WithUserGender(gender string) UserOption {
+	return func(u *User) {
+		u.Gender = gender
+	}
+}
+
 // WithMetadata adds the user's metadata to the struct
 func WithMetadata(Metadata map[string]any) UserOption {
 	return func(u *User) {
@@ -128,6 +136,7 @@ func WithUpdatedAt(updatedAt time.Time) UserOption {
 // NewUser is the constructor for a User struct
 func NewUser(opts ...UserOption) User {
 	u := User{
+		CommonID: valueobjects.NewCommonID(),
 		Metadata: make(map[string]any),
 	}
 

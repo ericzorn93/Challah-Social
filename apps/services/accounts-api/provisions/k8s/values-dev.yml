@@ -1,0 +1,13 @@
+fullname: accounts-api
+replicaCount: 1
+autoscaling:
+  enabled: false
+labels:
+  app: accounts-api
+service:
+  type: ClusterIP
+  port: 3000
+image:
+  repository: accounts-api
+  tag: latest
+  pullPolicy: Never

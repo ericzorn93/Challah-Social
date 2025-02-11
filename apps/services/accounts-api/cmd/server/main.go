@@ -49,12 +49,12 @@ func run() error {
 	}
 
 	// Custom interceptors
-	_ = httpauth.NewAuthInterceptor(logger)
+	authInterceptor := httpauth.NewAuthInterceptor(logger)
 
 	options := []connect.HandlerOption{
 		connect.WithInterceptors(
 			validationInterceptor,
-			// authInterceptor.Incoming(),
+			authInterceptor.Incoming(),
 		),
 	}
 
