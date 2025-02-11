@@ -1,0 +1,13 @@
+fullname: profile-api
+replicaCount: 1
+autoscaling:
+  enabled: false
+labels:
+  app: profile-api
+service:
+  type: ClusterIP
+  port: 3000
+image:
+  repository: profile-api
+  tag: latest
+  pullPolicy: Never
