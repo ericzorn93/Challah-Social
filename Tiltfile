@@ -1,6 +1,3 @@
-# Dependencies
-load('ext://helm_resource', 'helm_resource', 'helm_repo')
-
 # Primary Docker Compose Imports
 docker_compose(["./docker-compose.yml"])
 
@@ -46,6 +43,8 @@ docker_build('challah-social/inbound-webhooks-api', '.',
 )
 
 # TODO: Adding Helm Chart Build
+# load('ext://helm_resource', 'helm_resource', 'helm_repo')
+
 # accountsAPIYaml = helm(
 #     "./k8s/helm/backend-service",
 #     name='accounts-api-helm',
