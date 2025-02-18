@@ -1,4 +1,3 @@
-version: '3.9'
 name: challah-social
 services:
   ############ KONG API GATEWAY/REVERSE PROXY ############
