@@ -1,0 +1,21 @@
+{
+  "name": "ollama",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/services/ollama",
+  "projectType": "application",
+  "tags": ["ollama", "api", "services"],
+  "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "flyctl deploy -c apps/services/ollama/fly.toml -y",
+          "flyctl scale count 1 -r iad -c apps/services/ollama/fly.toml -y",
+          "flyctl scale count 0 -r ewr -c apps/services/ollama/fly.toml -y",
+          "flyctl scale count 0 -r lax -c apps/services/ollama/fly.toml -y",
+          "flyctl scale count 0 -r ord -c apps/services/ollama/fly.toml -y"
+        ]
+      }
+    }
+  }
+}
