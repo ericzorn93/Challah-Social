@@ -169,6 +169,18 @@ services:
       - kong-api-gateway
       - accounts-graphql
   ############ /Apollo Router ############
+
+  ########### OLlama #####################
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - olama:/root/.ollama
+    depends_on:
+      - kong-api-gateway
+  ########### /OLlama #####################
 volumes:
   inbound-webhooks-api:
   accounts-api:
@@ -177,3 +189,4 @@ volumes:
   profile-api:
   lavinmq:
   cockroachdb-cluster:
+  olama:
