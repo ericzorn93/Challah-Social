@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine AS builder
+FROM golang:1.24-alpine AS builder
 WORKDIR /app
 COPY go.work .
 COPY go.work.sum .
@@ -9,7 +9,7 @@ ENV GOARCH=amd64
 ENV CGO_ENABLED=0
 RUN go build -o /bin/accounts-api ./apps/services/accounts-api/cmd/server/main.go
 
-FROM alpine:3.20
+FROM alpine:3.21
 RUN apk update --no-cache bash curl
 WORKDIR /app
 COPY --from=builder /bin/accounts-api /bin/accounts-api
