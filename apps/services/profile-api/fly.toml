@@ -1,21 +1,24 @@
-app = 'profile-api-prod'
+# fly.toml app configuration file generated for profile-api-prod on 2025-05-31T13:14:48-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[[services]]
-primary_region = 'iad'
+app = 'profile-api-prod'
+primary_region = 'ewr'
 
 [build]
-dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
-
+[[services]]
+  protocol = ''
+  internal_port = 0
+  ports = []
 
 [[vm]]
-memory = '1gb'
-cpu_kind = 'shared'
-cpus = 1
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
 
-[[machines]]
-restart_policy = "always"
-
-[metrics]
-port = 3000
-path = "/metrics" # default for most prometheus exporters
+[[metrics]]
+  port = 3000
+  path = '/metrics'
